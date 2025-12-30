@@ -9,23 +9,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    # Step 1: Checkout code
     - name: Checkout Code
       uses: actions/checkout@v3
 
+    # Step 2: Setup Python
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.10'
 
+    # Step 3: Install dependencies
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
+    # Step 4: Run Tests
     - name: Run Tests
       run: |
+        echo "Setting PYTHONPATH to find app.py"
         export PYTHONPATH=$PYTHONPATH:.
         pytest tests/
 
+    # Step 5: Build Docker image
     - name: Build Docker Image
       run: docker build -t flask-app .
